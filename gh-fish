@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Hello gh-fish!"
+# echo "Hello gh-fish!"
+
+fish ~/.local/share/gh/extensions/gh-fish/gh-fish.fish $@
 
 # Snippets to help get started:
 
