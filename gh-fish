@@ -1,37 +1,29 @@
-#!/usr/bin/env bash
-set -e
+#!/usr/bin/env fish
 
-# echo "Hello gh-fish!"
+set -l argv_copy $argv
 
-fish ~/.local/share/gh/extensions/gh-fish/gh-fish.fish $@
+function alias_func
+    set -l GH_FISH_ALIAS_PATH "~/.local/share/gh/extensions/gh-fish/gh-copilot-alias.fish"
+    set -l FISH_CONFIG_PATH ~/.config/fish/config.fish
+    set -l ALIAS_EXISTS (grep -c "source $GH_FISH_ALIAS_PATH" $FISH_CONFIG_PATH)
+    if test "$ALIAS_EXISTS" = "0"
+        echo "source $GH_FISH_ALIAS_PATH" >> ~/.config/fish/config.fish
+    else
+        return 0
+    end
+end
 
-# Snippets to help get started:
+function source_func
+    source ~/.local/share/gh/extensions/gh-fish/gh-copilot-alias.fish
+end
 
-# Determine if an executable is in the PATH
-# if ! type -p ruby >/dev/null; then
-#   echo "Ruby not found on the system" >&2
-#   exit 1
-# fi
-
-# Pass arguments through to another command
-# gh issue list "$@" -R cli/cli
-
-# Using the gh api command to retrieve and format information
-# QUERY='
-#   query($endCursor: String) {
-#     viewer {
-#       repositories(first: 100, after: $endCursor) {
-#         nodes {
-#           nameWithOwner
-#           stargazerCount
-#         }
-#       }
-#     }
-#   }
-# '
-# TEMPLATE='
-#   {{- range $repo := .data.viewer.repositories.nodes -}}
-#     {{- printf "name: %s - stargazers: %v\n" $repo.nameWithOwner $repo.stargazerCount -}}
-#   {{- end -}}
-# '
-# exec gh api graphql -f query="${QUERY}" --paginate --template="${TEMPLATE}"
+for i in (seq (count $argv_copy))
+    switch $argv_copy[$i]
+        case 'alias'
+            alias_func
+        case 'source'
+            echo 'source ~/.local/share/gh/extensions/gh-fish/gh-fish srcin'
+        case 'srcin'
+            source_func
+    end
+end
