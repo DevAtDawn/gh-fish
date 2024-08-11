@@ -17,6 +17,7 @@ function source_func
     source ~/.local/share/gh/extensions/gh-fish/gh-copilot-alias.fish
 end
 
+
 for i in (seq (count $argv_copy))
     switch $argv_copy[$i]
         case 'alias'
@@ -27,3 +28,17 @@ for i in (seq (count $argv_copy))
             source_func
     end
 end
+
+
+# fish
+function ghcs_interactive_option 
+    functions ghcs | sed "s/ \-t \"\$TARGET\"//" | source
+end
+
+# bash
+#  eval "$(declare -f ghcs  | sed 's/ -t "\$TARGET"//')"
+
+#zsh
+# function ghcs_interactive_option {
+    # functions ghcs | sed 's/ -t "\$TARGET"//' | source /dev/stdin
+# }
